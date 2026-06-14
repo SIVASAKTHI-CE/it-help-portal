@@ -1,0 +1,6 @@
+nginx/.htpasswd_user
+nginx/.htpasswd_admin
+ai/__pycache__/
+*.pyc
+cloudflare.log
+.env
