@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scripts — IT Help Portal</title>
+<style>
+:root[data-theme="dark"]{--bg:#0A0E17;--card:#0F1623;--card2:#161E2E;--border:#1E2D45;--cyan:#00F5FF;--purple:#9D4EDD;--green:#39FF14;--orange:#FF6B35;--text:#CBD5E1;--bright:#E2E8F0;--muted:#475569;--code-bg:#050810;--nav-bg:rgba(10,14,23,0.97);}
+:root[data-theme="light"]{--bg:#F0F4F8;--card:#FFFFFF;--card2:#F8FAFC;--border:#CBD5E1;--cyan:#0099CC;--purple:#7C3AED;--green:#16A34A;--orange:#EA580C;--text:#334155;--bright:#0F172A;--muted:#64748B;--code-bg:#1E293B;--nav-bg:rgba(255,255,255,0.97);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;transition:background .3s,color .3s;}
+.sbar{background:#050810;border-bottom:1px solid var(--border);padding:5px 24px;display:flex;align-items:center;gap:10px;font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.sbar span{color:var(--green);}.sright{margin-left:auto;}
+nav{background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:54px;position:sticky;top:0;z-index:99;}
+.logo{font-family:'Courier New',monospace;font-size:14px;font-weight:700;color:var(--cyan);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.lbox{width:26px;height:26px;border:1.5px solid var(--cyan);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.nlinks{display:flex;gap:4px;margin-left:28px;}
+.nl{color:var(--muted);text-decoration:none;font-size:12px;padding:5px 12px;border-radius:5px;border:1px solid transparent;transition:.2s;}
+.nl:hover,.nl.active{color:var(--cyan);background:rgba(0,245,255,0.08);border-color:rgba(0,245,255,0.2);}
+.nright{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.badge{font-family:'Courier New',monospace;font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:rgba(57,255,20,0.08);}
+.theme-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;cursor:pointer;font-size:12px;color:var(--text);display:flex;align-items:center;gap:6px;transition:.2s;}
+.theme-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+main{max-width:1100px;margin:0 auto;padding:28px 24px;}
+.page-head{margin-bottom:28px;}
+.page-head h1{font-family:'Courier New',monospace;font-size:24px;font-weight:700;color:var(--cyan);margin-bottom:6px;}
+.page-head p{font-size:13px;color:var(--muted);}
+.breadcrumb{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);margin-bottom:10px;}
+.breadcrumb a{color:var(--cyan);text-decoration:none;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:32px;}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:.2s;}
+.scard:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,245,255,0.08);transform:translateY(-2px);}
+.scard-top{padding:18px 18px 0;}
+.stags{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.stag{font-family:'Courier New',monospace;font-size:10px;padding:2px 8px;border-radius:3px;}
+.tl{background:rgba(57,255,20,0.08);color:var(--green);border:1px solid rgba(57,255,20,0.25);}
+.tw{background:rgba(157,78,221,0.08);color:var(--purple);border:1px solid rgba(157,78,221,0.25);}
+.tm{background:rgba(0,245,255,0.08);color:var(--cyan);border:1px solid rgba(0,245,255,0.25);}
+.sname{font-family:'Courier New',monospace;font-size:14px;font-weight:700;color:var(--bright);margin-bottom:6px;}
+.sdesc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.ssteps{background:var(--card2);border-top:1px solid var(--border);padding:12px 18px;}
+.sstep{font-family:'Courier New',monospace;font-size:11px;color:var(--green);line-height:1.8;}
+.scard-foot{padding:14px 18px;display:flex;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:6px;font-size:11px;font-family:'Courier New',monospace;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:.2s;justify-content:center;}
+.bg{background:rgba(57,255,20,0.06);border:1px solid var(--green);color:var(--green);flex:1;}
+.bg:hover{background:var(--green);color:var(--bg);box-shadow:0 0 16px rgba(57,255,20,0.3);}
+.bc{background:rgba(0,245,255,0.06);border:1px solid var(--cyan);color:var(--cyan);flex:1;}
+.bc:hover{background:var(--cyan);color:var(--bg);}
+footer{border-top:1px solid var(--border);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.fl{font-family:'Courier New',monospace;font-size:12px;color:var(--cyan);font-weight:700;}
+.fc{font-size:11px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="sbar"><div class="sdot"></div><span>PORTAL ONLINE</span>&nbsp;|&nbsp; Scripts &nbsp;|&nbsp; BITLA-ITDESK<div class="sright">IT Help Portal v2.0</div></div>
+<nav>
+  <a href="index.html" class="logo"><div class="lbox">⚡</div>IT HELP PORTAL</a>
+  <div class="nlinks">
+    <a href="index.html" class="nl">Home</a>
+    <a href="packages.html" class="nl">Packages</a>
+    <a href="scripts.html" class="nl active">Scripts</a>
+    <a href="commands.html" class="nl">Commands</a>
+  </div>
+  <div class="nright">
+    <button class="theme-btn" onclick="toggleTheme()">🌙 <span id="theme-label">Dark</span></button>
+    <div class="badge">● LIVE</div>
+  </div>
+</nav>
+<main>
+  <div class="page-head">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Scripts</div>
+    <h1>📜 Automation Scripts</h1>
+    <p>Download and run pre-built shell scripts for one-command setup of security tools and dev environments.</p>
+  </div>
+  <div class="grid">
+    <div class="scard">
+      <div class="scard-top">
+        <div class="stags"><span class="stag tl">LINUX</span><span class="stag tl">BASH</span></div>
+        <div class="sname">security_setup.sh</div>
+        <div class="sdesc">Installs CrowdStrike Falcon Sensor on Ubuntu. Sets Customer ID (CID), enables and starts the falcon-sensor service automatically. Run once on any new Ubuntu machine.</div>
+      </div>
+      <div class="ssteps">
+        <div class="sstep">$ chmod +x security_setup.sh</div>
+        <div class="sstep">$ sudo bash security_setup.sh</div>
+        <div class="sstep"># Verify: sudo systemctl status falcon-sensor</div>
+      </div>
+      <div class="scard-foot">
+        <a href="scripts/security_setup.sh" class="btn bg">↓ Download</a>
+        <a href="commands.html#crowdstrike" class="btn bc">View Commands</a>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-top">
+        <div class="stags"><span class="stag tl">LINUX</span><span class="stag tl">BASH</span></div>
+        <div class="sname">mobility_setup.sh</div>
+        <div class="sdesc">Installs and configures Zscaler Private Access client on Ubuntu. Includes OpenSSH server setup, UFW firewall rules, and service auto-start configuration.</div>
+      </div>
+      <div class="ssteps">
+        <div class="sstep">$ chmod +x mobility_setup.sh</div>
+        <div class="sstep">$ sudo bash mobility_setup.sh</div>
+        <div class="sstep"># Verify: sudo systemctl status zscaler</div>
+      </div>
+      <div class="scard-foot">
+        <a href="scripts/mobility_setup.sh" class="btn bg">↓ Download</a>
+        <a href="commands.html#zscaler" class="btn bc">View Commands</a>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-top">
+        <div class="stags"><span class="stag tl">LINUX</span><span class="stag tl">BASH</span></div>
+        <div class="sname">ror_setup.sh</div>
+        <div class="sdesc">Full Ruby on Rails development environment setup. Installs RVM, Ruby 3.2.2, Rails 7.0, MySQL server and MySQL Workbench. One script does everything.</div>
+      </div>
+      <div class="ssteps">
+        <div class="sstep">$ chmod +x ror_setup.sh</div>
+        <div class="sstep">$ bash ror_setup.sh</div>
+        <div class="sstep"># Verify: ruby -v && rails -v</div>
+      </div>
+      <div class="scard-foot">
+        <a href="scripts/ror_setup.sh" class="btn bg">↓ Download</a>
+        <a href="commands.html#rails" class="btn bc">View Commands</a>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-top">
+        <div class="stags"><span class="stag tl">LINUX</span><span class="stag tl">BASH</span></div>
+        <div class="sname">bios_update.sh</div>
+        <div class="sdesc">Automates BIOS/firmware update checks for Dell systems using fwupdmgr. Safe to run on any Ubuntu machine connected to the internet.</div>
+      </div>
+      <div class="ssteps">
+        <div class="sstep">$ chmod +x bios_update.sh</div>
+        <div class="sstep">$ sudo bash bios_update.sh</div>
+        <div class="sstep"># Requires: fwupdmgr installed</div>
+      </div>
+      <div class="scard-foot">
+        <a href="scripts/bios_update.sh" class="btn bg">↓ Download</a>
+        <a href="commands.html#system" class="btn bc">View Commands</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="fl">⚡ IT HELP PORTAL</div>
+  <div class="fc">BITLA-ITDESK · Automation Scripts</div>
+  <div class="fc">v2.0 · Docker + AI</div>
+</footer>
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-label').textContent=isDark?'Light':'Dark';
+  document.querySelector('.theme-btn').innerHTML=isDark?'☀️ <span id="theme-label">Light</span>':'🌙 <span id="theme-label">Dark</span>';
+  localStorage.setItem('theme',isDark?'light':'dark');
+}
+const saved=localStorage.getItem('theme');
+if(saved){document.documentElement.setAttribute('data-theme',saved);}
+</script>
+</body>
+</html>

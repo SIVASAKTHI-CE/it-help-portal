@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Packages — IT Help Portal</title>
+<style>
+:root[data-theme="dark"]{--bg:#0A0E17;--card:#0F1623;--card2:#161E2E;--border:#1E2D45;--cyan:#00F5FF;--purple:#9D4EDD;--green:#39FF14;--orange:#FF6B35;--text:#CBD5E1;--bright:#E2E8F0;--muted:#475569;--nav-bg:rgba(10,14,23,0.97);}
+:root[data-theme="light"]{--bg:#F0F4F8;--card:#FFFFFF;--card2:#F8FAFC;--border:#CBD5E1;--cyan:#0099CC;--purple:#7C3AED;--green:#16A34A;--orange:#EA580C;--text:#334155;--bright:#0F172A;--muted:#64748B;--nav-bg:rgba(255,255,255,0.97);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;transition:background .3s,color .3s;}
+.sbar{background:#050810;border-bottom:1px solid var(--border);padding:5px 24px;display:flex;align-items:center;gap:10px;font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.sbar span{color:var(--green);}.sright{margin-left:auto;}
+nav{background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:54px;position:sticky;top:0;z-index:99;}
+.logo{font-family:'Courier New',monospace;font-size:14px;font-weight:700;color:var(--cyan);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.lbox{width:26px;height:26px;border:1.5px solid var(--cyan);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.nlinks{display:flex;gap:4px;margin-left:28px;}
+.nl{color:var(--muted);text-decoration:none;font-size:12px;padding:5px 12px;border-radius:5px;border:1px solid transparent;transition:.2s;}
+.nl:hover,.nl.active{color:var(--cyan);background:rgba(0,245,255,0.08);border-color:rgba(0,245,255,0.2);}
+.nright{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.badge{font-family:'Courier New',monospace;font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:rgba(57,255,20,0.08);}
+.theme-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;cursor:pointer;font-size:12px;color:var(--text);display:flex;align-items:center;gap:6px;transition:.2s;}
+.theme-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+main{max-width:1100px;margin:0 auto;padding:28px 24px;}
+.page-head{margin-bottom:28px;}
+.page-head h1{font-family:'Courier New',monospace;font-size:24px;font-weight:700;color:var(--cyan);margin-bottom:6px;}
+.page-head p{font-size:13px;color:var(--muted);}
+.breadcrumb{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);margin-bottom:10px;}
+.breadcrumb a{color:var(--cyan);text-decoration:none;}
+/* FILTER TABS */
+.ftabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.ftab{font-family:'Courier New',monospace;font-size:11px;padding:5px 14px;border-radius:5px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:.2s;}
+.ftab:hover,.ftab.active{border-color:var(--cyan);color:var(--cyan);background:rgba(0,245,255,0.06);}
+/* TABLE */
+.pkg-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px;}
+.pkg-table th{background:var(--card2);padding:11px 16px;text-align:left;font-family:'Courier New',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);}
+.pkg-table td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle;}
+.pkg-table tr:last-child td{border-bottom:none;}
+.pkg-table tr:hover td{background:var(--card2);}
+.pkg-name{font-family:'Courier New',monospace;font-weight:600;color:var(--bright);font-size:13px;}
+.pkg-ver{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
+.pkg-size{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
+.os-tag{font-family:'Courier New',monospace;font-size:10px;padding:2px 8px;border-radius:3px;display:inline-block;}
+.tl{background:rgba(57,255,20,0.08);color:var(--green);border:1px solid rgba(57,255,20,0.25);}
+.tw{background:rgba(157,78,221,0.08);color:var(--purple);border:1px solid rgba(157,78,221,0.25);}
+.tm{background:rgba(0,245,255,0.08);color:var(--cyan);border:1px solid rgba(0,245,255,0.25);}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:5px;font-size:11px;font-family:'Courier New',monospace;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:.2s;white-space:nowrap;}
+.bg{background:rgba(57,255,20,0.06);border:1px solid var(--green);color:var(--green);}
+.bg:hover{background:var(--green);color:var(--bg);box-shadow:0 0 14px rgba(57,255,20,0.3);}
+.bp{background:rgba(157,78,221,0.06);border:1px solid var(--purple);color:var(--purple);}
+.bp:hover{background:var(--purple);color:#fff;}
+.bc{background:rgba(0,245,255,0.06);border:1px solid var(--cyan);color:var(--cyan);}
+.bc:hover{background:var(--cyan);color:var(--bg);}
+.info-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:8px;padding:14px 18px;margin-bottom:24px;font-size:12px;color:var(--muted);line-height:1.7;}
+.info-box strong{color:var(--orange);}
+footer{border-top:1px solid var(--border);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.fl{font-family:'Courier New',monospace;font-size:12px;color:var(--cyan);font-weight:700;}
+.fc{font-size:11px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="sbar"><div class="sdot"></div><span>PORTAL ONLINE</span>&nbsp;|&nbsp; Packages &nbsp;|&nbsp; BITLA-ITDESK<div class="sright">IT Help Portal v2.0</div></div>
+<nav>
+  <a href="index.html" class="logo"><div class="lbox">⚡</div>IT HELP PORTAL</a>
+  <div class="nlinks">
+    <a href="index.html" class="nl">Home</a>
+    <a href="packages.html" class="nl active">Packages</a>
+    <a href="scripts.html" class="nl">Scripts</a>
+    <a href="commands.html" class="nl">Commands</a>
+  </div>
+  <div class="nright">
+    <button class="theme-btn" onclick="toggleTheme()">🌙 <span id="theme-label">Dark</span></button>
+    <div class="badge">● LIVE</div>
+  </div>
+</nav>
+<main>
+  <div class="page-head">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Packages</div>
+    <h1>📦 Software Packages</h1>
+    <p>All approved enterprise software packages. Download the correct version for your OS.</p>
+  </div>
+
+  <div class="info-box">
+    <strong>⚠ Important:</strong> Always download packages from this portal only. These are org-approved versions tested by BITLA-ITDESK. Do not download from vendor websites directly.
+  </div>
+
+  <div class="ftabs">
+    <div class="ftab active" onclick="filterPkg('all',this)">All Packages</div>
+    <div class="ftab" onclick="filterPkg('crowdstrike',this)">🛡 CrowdStrike</div>
+    <div class="ftab" onclick="filterPkg('zscaler',this)">☁ Zscaler</div>
+    <div class="ftab" onclick="filterPkg('windows',this)">🪟 Windows</div>
+    <div class="ftab" onclick="filterPkg('linux',this)">🐧 Linux</div>
+    <div class="ftab" onclick="filterPkg('mac',this)"> macOS</div>
+  </div>
+
+  <!-- CROWDSTRIKE TABLE -->
+  <table class="pkg-table" data-cat="crowdstrike" id="cs-table">
+    <thead>
+      <tr>
+        <th>Package</th><th>OS</th><th>Version</th><th>Size</th><th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-os="linux">
+        <td>
+          <div class="pkg-name">🛡 CrowdStrike Falcon Sensor</div>
+          <div class="pkg-ver">Ubuntu / Debian · .deb package</div>
+        </td>
+        <td><span class="os-tag tl">🐧 Linux</span></td>
+        <td class="pkg-ver">7.32.18504</td>
+        <td class="pkg-size">83.9 MB</td>
+        <td><a href="packages/Ubuntu 7.32.18504.deb" class="btn bg">↓ Download</a></td>
+      </tr>
+      <tr data-os="mac">
+        <td>
+          <div class="pkg-name">🛡 CrowdStrike Falcon Sensor</div>
+          <div class="pkg-ver">macOS · .pkg installer</div>
+        </td>
+        <td><span class="os-tag tm"> macOS</span></td>
+        <td class="pkg-ver">7.32.20407</td>
+        <td class="pkg-size">43 MB</td>
+        <td><a href="packages/macOS - 7.32.20407.pkg" class="btn bc">↓ Download</a></td>
+      </tr>
+      <tr data-os="windows">
+        <td>
+          <div class="pkg-name">🛡 CrowdStrike Falcon Sensor</div>
+          <div class="pkg-ver">Windows · .exe installer</div>
+        </td>
+        <td><span class="os-tag tw">🪟 Windows</span></td>
+        <td class="pkg-ver">Coming Soon</td>
+        <td class="pkg-size">—</td>
+        <td><span style="font-family:'Courier New',monospace;font-size:11px;color:var(--muted)">Copy from Org</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ZSCALER TABLE -->
+  <table class="pkg-table" data-cat="zscaler" id="zs-table">
+    <thead>
+      <tr>
+        <th>Package</th><th>OS</th><th>Version</th><th>Size</th><th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-os="windows">
+        <td>
+          <div class="pkg-name">☁ Zscaler Private Access</div>
+          <div class="pkg-ver">Windows · .exe installer · x64</div>
+        </td>
+        <td><span class="os-tag tw">🪟 Windows</span></td>
+        <td class="pkg-ver">4.8.0.88</td>
+        <td class="pkg-size">97.4 MB</td>
+        <td><a href="packages/Zscaler-windows-4.8.0.88-installer-x64.exe" class="btn bp">↓ Download</a></td>
+      </tr>
+      <tr data-os="linux">
+        <td>
+          <div class="pkg-name">☁ Zscaler Private Access</div>
+          <div class="pkg-ver">Ubuntu / Debian · .deb · amd64</div>
+        </td>
+        <td><span class="os-tag tl">🐧 Linux</span></td>
+        <td class="pkg-ver">3.7.2.53</td>
+        <td class="pkg-size">27.3 MB</td>
+        <td><a href="packages/zscaler-client_3.7.2.53-1_amd64.deb" class="btn bg">↓ Download</a></td>
+      </tr>
+      <tr data-os="mac">
+        <td>
+          <div class="pkg-name">☁ Zscaler Private Access</div>
+          <div class="pkg-ver">macOS · .zip app bundle</div>
+        </td>
+        <td><span class="os-tag tm"> macOS</span></td>
+        <td class="pkg-ver">4.7.0.126</td>
+        <td class="pkg-size">100.8 MB</td>
+        <td><a href="packages/Zscaler-osx-4.7.0.126-installer.app.zip" class="btn bc">↓ .zip</a></td>
+      </tr>
+      <tr data-os="mac">
+        <td>
+          <div class="pkg-name">☁ Zscaler Private Access</div>
+          <div class="pkg-ver">macOS · .pkg installer</div>
+        </td>
+        <td><span class="os-tag tm"> macOS</span></td>
+        <td class="pkg-ver">4.7.0.126</td>
+        <td class="pkg-size">207.2 MB</td>
+        <td><a href="packages/Zscaler-osx-4.7.0.126-installer.pkg" class="btn bc">↓ .pkg</a></td>
+      </tr>
+      <tr data-os="mac">
+        <td>
+          <div class="pkg-name">☁ Zscaler Root Certificate</div>
+          <div class="pkg-ver">macOS · Security Certificate · .crt</div>
+        </td>
+        <td><span class="os-tag tm"> macOS</span></td>
+        <td class="pkg-ver">2048-SHA256 Feb2025</td>
+        <td class="pkg-size">6 KB</td>
+        <td><a href="packages/ZscalerRootCertificate-2048-SHA256-Feb2025.crt" class="btn bc">↓ .crt</a></td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+<footer>
+  <div class="fl">⚡ IT HELP PORTAL</div>
+  <div class="fc">BITLA-ITDESK · Software Packages</div>
+  <div class="fc">v2.0 · Docker + AI</div>
+</footer>
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-label').textContent=isDark?'Light':'Dark';
+  localStorage.setItem('theme',isDark?'light':'dark');
+}
+const saved=localStorage.getItem('theme');
+if(saved){document.documentElement.setAttribute('data-theme',saved);}
+function filterPkg(cat,el){
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.pkg-table').forEach(t=>{
+    if(cat==='all'){t.style.display='';return;}
+    const tcat=t.getAttribute('data-cat');
+    if(cat==='crowdstrike'||cat==='zscaler'){
+      t.style.display=tcat===cat?'':'none';
+    } else {
+      t.style.display='';
+      t.querySelectorAll('tbody tr').forEach(r=>{
+        const os=r.getAttribute('data-os');
+        r.style.display=os===cat?'':'none';
+      });
+    }
+  });
+}
+</script>
+</body>
+</html>

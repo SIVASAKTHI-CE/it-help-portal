@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commands — IT Help Portal</title>
+<style>
+:root[data-theme="dark"]{
+  --bg:#0A0E17;--card:#0F1623;--card2:#161E2E;--border:#1E2D45;
+  --cyan:#00F5FF;--purple:#9D4EDD;--green:#39FF14;--orange:#FF6B35;
+  --text:#CBD5E1;--bright:#E2E8F0;--muted:#475569;
+  --code-bg:#050810;--nav-bg:rgba(10,14,23,0.97);
+}
+:root[data-theme="light"]{
+  --bg:#F0F4F8;--card:#FFFFFF;--card2:#F8FAFC;--border:#CBD5E1;
+  --cyan:#0099CC;--purple:#7C3AED;--green:#16A34A;--orange:#EA580C;
+  --text:#334155;--bright:#0F172A;--muted:#64748B;
+  --code-bg:#1E293B;--nav-bg:rgba(255,255,255,0.97);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;transition:background .3s,color .3s;}
+/* STATUS */
+.sbar{background:#050810;border-bottom:1px solid var(--border);padding:5px 24px;display:flex;align-items:center;gap:10px;font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.sbar span{color:var(--green);}
+.sright{margin-left:auto;}
+/* NAV */
+nav{background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:54px;position:sticky;top:0;z-index:99;}
+.logo{font-family:'Courier New',monospace;font-size:14px;font-weight:700;color:var(--cyan);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.lbox{width:26px;height:26px;border:1.5px solid var(--cyan);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.nlinks{display:flex;gap:4px;margin-left:28px;}
+.nl{color:var(--muted);text-decoration:none;font-size:12px;padding:5px 12px;border-radius:5px;border:1px solid transparent;transition:.2s;}
+.nl:hover,.nl.active{color:var(--cyan);background:rgba(0,245,255,0.08);border-color:rgba(0,245,255,0.2);}
+.nright{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.badge{font-family:'Courier New',monospace;font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:rgba(57,255,20,0.08);}
+/* THEME TOGGLE */
+.theme-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;cursor:pointer;font-size:12px;color:var(--text);display:flex;align-items:center;gap:6px;transition:.2s;}
+.theme-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+/* MAIN */
+main{max-width:1100px;margin:0 auto;padding:28px 24px;}
+/* PAGE HEADER */
+.page-head{margin-bottom:32px;}
+.page-head h1{font-family:'Courier New',monospace;font-size:24px;font-weight:700;color:var(--cyan);margin-bottom:6px;}
+.page-head p{font-size:13px;color:var(--muted);}
+.breadcrumb{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);margin-bottom:10px;}
+.breadcrumb a{color:var(--cyan);text-decoration:none;}
+/* SECTION */
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:28px;}
+.sec-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.ic{background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.25);}
+.ip{background:rgba(157,78,221,0.1);border:1px solid rgba(157,78,221,0.25);}
+.ig{background:rgba(57,255,20,0.1);border:1px solid rgba(57,255,20,0.25);}
+.io{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.25);}
+.sec-head h2{font-family:'Courier New',monospace;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:2px;}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+/* CODE BLOCK */
+.cblock{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+.ctop{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--card2);border-bottom:1px solid var(--border);}
+.dots{display:flex;gap:5px;}
+.d{width:9px;height:9px;border-radius:50%;}
+.dr{background:#FF5F57;}.dy{background:#FEBC2E;}.dg{background:#28C840;}
+.ctitle{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);margin-left:4px;}
+.clang{font-family:'Courier New',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
+.copy-btn{font-family:'Courier New',monospace;font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:.2s;margin-left:8px;}
+.copy-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.ccode{padding:16px;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.9;overflow-x:auto;white-space:pre;}
+.cg{color:#39FF14;}.cc{color:#00F5FF;}.cy{color:#F1FA8C;}.cm{color:#475569;}.co{color:#FF6B35;}
+/* SEARCH */
+.search-wrap{margin-bottom:24px;position:relative;}
+.search-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 16px 11px 38px;color:var(--bright);font-family:'Courier New',monospace;font-size:13px;outline:none;transition:.2s;}
+.search-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,245,255,0.1);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
+/* CATEGORY TAGS */
+.cat-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.cat-tag{font-family:'Courier New',monospace;font-size:11px;padding:4px 12px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:.2s;}
+.cat-tag:hover,.cat-tag.active{border-color:var(--cyan);color:var(--cyan);background:rgba(0,245,255,0.08);}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:40px;}
+.fl{font-family:'Courier New',monospace;font-size:12px;color:var(--cyan);font-weight:700;}
+.fc{font-size:11px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="sbar">
+  <div class="sdot"></div><span>PORTAL ONLINE</span>
+  &nbsp;|&nbsp; Commands Reference &nbsp;|&nbsp; BITLA-ITDESK
+  <div class="sright">IT Help Portal v2.0</div>
+</div>
+<nav>
+  <a href="index.html" class="logo"><div class="lbox">⚡</div>IT HELP PORTAL</a>
+  <div class="nlinks">
+    <a href="index.html" class="nl">Home</a>
+    <a href="packages.html" class="nl">Packages</a>
+    <a href="scripts.html" class="nl">Scripts</a>
+    <a href="commands.html" class="nl active">Commands</a>
+  </div>
+  <div class="nright">
+    <button class="theme-btn" onclick="toggleTheme()">🌙 <span id="theme-label">Dark</span></button>
+    <div class="badge">● LIVE</div>
+  </div>
+</nav>
+<main>
+  <div class="page-head">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Commands</div>
+    <h1>⌨ Commands Reference</h1>
+    <p>Quick copy-paste commands for CrowdStrike, Zscaler, SSH, Docker and more.</p>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="search" placeholder="Search commands..." oninput="filterCmds()">
+  </div>
+
+  <div class="cat-tags">
+    <div class="cat-tag active" onclick="filterCat('all',this)">All</div>
+    <div class="cat-tag" onclick="filterCat('crowdstrike',this)">CrowdStrike</div>
+    <div class="cat-tag" onclick="filterCat('zscaler',this)">Zscaler</div>
+    <div class="cat-tag" onclick="filterCat('ssh',this)">SSH / Network</div>
+    <div class="cat-tag" onclick="filterCat('docker',this)">Docker</div>
+    <div class="cat-tag" onclick="filterCat('rails',this)">Ruby on Rails</div>
+    <div class="cat-tag" onclick="filterCat('system',this)">System</div>
+  </div>
+
+  <!-- CROWDSTRIKE -->
+  <div class="sec-head" data-cat="crowdstrike">
+    <div class="sec-icon ic">🛡</div>
+    <h2>CrowdStrike Falcon</h2><div class="sec-line"></div>
+  </div>
+  <div class="cblock" data-cat="crowdstrike">
+    <div class="ctop">
+      <div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div>
+      <span class="ctitle">crowdstrike-commands.sh</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="clang">bash</span>
+    </div>
+    <div class="ccode"><span class="cm"># Install CrowdStrike Falcon Sensor</span>
+<span class="cc">sudo dpkg</span> -i Ubuntu_7.32.18504.deb
+<span class="cc">sudo apt-get install</span> -f
+
+<span class="cm"># Set Customer ID (CID)</span>
+<span class="cc">sudo /opt/CrowdStrike/falconctl</span> <span class="cy">-s --cid=AD51434F6C8D4F60BE8051F85FB1F39C-A2</span>
+
+<span class="cm"># Verify CID was set correctly</span>
+<span class="cc">sudo /opt/CrowdStrike/falconctl</span> <span class="cy">-g --cid</span>
+
+<span class="cm"># Enable + Start service</span>
+<span class="cc">sudo systemctl enable</span> falcon-sensor
+<span class="cc">sudo systemctl start</span> falcon-sensor
+
+<span class="cm"># Check service status</span>
+<span class="cc">sudo systemctl status</span> falcon-sensor
+
+<span class="cm"># Verify cloud registration (AID = registered)</span>
+<span class="cc">sudo /opt/CrowdStrike/falconctl</span> <span class="cy">-g --aid</span>
+
+<span class="cm"># Restart sensor</span>
+<span class="cc">sudo systemctl restart</span> falcon-sensor
+
+<span class="cm"># Uninstall sensor</span>
+<span class="cc">sudo apt-get remove</span> falcon-sensor</div>
+  </div>
+
+  <!-- ZSCALER -->
+  <div class="sec-head" data-cat="zscaler">
+    <div class="sec-icon ic">☁</div>
+    <h2>Zscaler</h2><div class="sec-line"></div>
+  </div>
+  <div class="cblock" data-cat="zscaler">
+    <div class="ctop">
+      <div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div>
+      <span class="ctitle">zscaler-commands.sh</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="clang">bash</span>
+    </div>
+    <div class="ccode"><span class="cm"># Install Zscaler client</span>
+<span class="cc">sudo dpkg</span> -i zscaler-client_*.deb
+<span class="cc">sudo apt-get install</span> -f
+
+<span class="cm"># Service controls</span>
+<span class="cc">sudo systemctl status</span> zscaler
+<span class="cc">sudo systemctl restart</span> zscaler
+<span class="cc">sudo systemctl stop</span> zscaler
+
+<span class="cm"># Wayland display fix (if GUI doesn't load)</span>
+<span class="cc">sudo sed</span> <span class="cy">-i 's/#\?\WaylandEnable=false/WaylandEnable=false/'</span> /etc/gdm3/custom.conf
+<span class="cc">sudo systemctl restart</span> gdm3
+
+<span class="cm"># Check Zscaler logs</span>
+<span class="cc">sudo journalctl</span> -u zscaler -f</div>
+  </div>
+
+  <!-- SSH / NETWORK -->
+  <div class="sec-head" data-cat="ssh">
+    <div class="sec-icon ip">🌐</div>
+    <h2>SSH / Network</h2><div class="sec-line"></div>
+  </div>
+  <div class="cblock" data-cat="ssh">
+    <div class="ctop">
+      <div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div>
+      <span class="ctitle">ssh-network.sh</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="clang">bash</span>
+    </div>
+    <div class="ccode"><span class="cm"># Install OpenSSH server</span>
+<span class="cc">sudo apt install</span> openssh-server openssh-client -y
+
+<span class="cm"># SSH service controls</span>
+<span class="cc">sudo systemctl status</span> ssh
+<span class="cc">sudo systemctl enable</span> ssh
+<span class="cc">sudo systemctl start</span> ssh
+
+<span class="cm"># Allow SSH through firewall</span>
+<span class="cc">sudo ufw allow</span> ssh
+<span class="cc">sudo ufw status</span>
+
+<span class="cm"># Connect to remote machine</span>
+<span class="cc">ssh</span> <span class="cy">username@192.168.x.x</span>
+
+<span class="cm"># Check IP address</span>
+<span class="cc">ip addr show</span>
+<span class="cc">hostname -I</span>
+
+<span class="cm"># Ping test</span>
+<span class="cc">ping</span> -c 4 8.8.8.8</div>
+  </div>
+
+  <!-- DOCKER -->
+  <div class="sec-head" data-cat="docker">
+    <div class="sec-icon ig">🐳</div>
+    <h2>Docker</h2><div class="sec-line"></div>
+  </div>
+  <div class="cblock" data-cat="docker">
+    <div class="ctop">
+      <div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div>
+      <span class="ctitle">docker-commands.sh</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="clang">bash</span>
+    </div>
+    <div class="ccode"><span class="cm"># Start all services</span>
+<span class="cc">docker compose up</span> -d
+
+<span class="cm"># Stop all services</span>
+<span class="cc">docker compose down</span>
+
+<span class="cm"># View running containers</span>
+<span class="cc">docker ps</span>
+
+<span class="cm"># View logs (live)</span>
+<span class="cc">docker logs</span> it-help-portal -f
+<span class="cc">docker logs</span> it-ai-backend -f
+
+<span class="cm"># Rebuild and restart</span>
+<span class="cc">docker compose up</span> -d --build --force-recreate
+
+<span class="cm"># Remove all stopped containers</span>
+<span class="cc">docker system prune</span> -f
+
+<span class="cm"># Check disk usage</span>
+<span class="cc">docker system df</span></div>
+  </div>
+
+  <!-- RUBY ON RAILS -->
+  <div class="sec-head" data-cat="rails">
+    <div class="sec-icon io">💎</div>
+    <h2>Ruby on Rails</h2><div class="sec-line"></div>
+  </div>
+  <div class="cblock" data-cat="rails">
+    <div class="ctop">
+      <div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div>
+      <span class="ctitle">rails-commands.sh</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="clang">bash</span>
+    </div>
+    <div class="ccode"><span class="cm"># Install RVM + Ruby</span>
+<span class="cc">curl -sSL https://get.rvm.io</span> | bash -s stable
+<span class="cc">rvm install</span> 3.2.2
+<span class="cc">rvm use</span> 3.2.2
+
+<span class="cm"># Install Rails</span>
+<span class="cc">gem install rails</span> -v 7.0
+
+<span class="cm"># MySQL</span>
+<span class="cc">sudo apt install</span> mysql-server -y
+<span class="cc">sudo mysql</span> -u root
+<span class="cy">ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';</span>
+
+<span class="cm"># New Rails app</span>
+<span class="cc">rails new</span> myapp -d mysql
+<span class="cc">cd</span> myapp
+<span class="cc">rails db:create</span>
+<span class="cc">rails server</span></div>
+  </div>
+
+  <!-- SYSTEM -->
+  <div class="sec-head" data-cat="system">
+    <div class="sec-icon ig">🖥</div>
+    <h2>System</h2><div class="sec-line"></div>
+  </div>
+  <div class="cblock" data-cat="system">
+    <div class="ctop">
+      <div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div>
+      <span class="ctitle">system-commands.sh</span>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="clang">bash</span>
+    </div>
+    <div class="ccode"><span class="cm"># Update system</span>
+<span class="cc">sudo apt update</span> && <span class="cc">sudo apt upgrade</span> -y
+
+<span class="cm"># Check disk space</span>
+<span class="cc">df -h</span>
+
+<span class="cm"># Check RAM usage</span>
+<span class="cc">free -h</span>
+
+<span class="cm"># Check running processes</span>
+<span class="cc">htop</span>
+
+<span class="cm"># Check open ports</span>
+<span class="cc">sudo netstat</span> -tulpn
+<span class="cc">sudo ss</span> -tulpn
+
+<span class="cm"># Check system logs</span>
+<span class="cc">sudo journalctl</span> -xe
+
+<span class="cm"># Restart system</span>
+<span class="cc">sudo reboot</span>
+
+<span class="cm"># Shutdown</span>
+<span class="cc">sudo shutdown</span> -h now</div>
+  </div>
+</main>
+<footer>
+  <div class="fl">⚡ IT HELP PORTAL</div>
+  <div class="fc">BITLA-ITDESK · Commands Reference</div>
+  <div class="fc">v2.0 · Docker + AI</div>
+</footer>
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-label').textContent=isDark?'Light':'Dark';
+  document.querySelector('.theme-btn').textContent=isDark?'☀️ Light':'🌙 Dark';
+  localStorage.setItem('theme',isDark?'light':'dark');
+}
+// Load saved theme
+const saved=localStorage.getItem('theme');
+if(saved){
+  document.documentElement.setAttribute('data-theme',saved);
+  document.getElementById('theme-label').textContent=saved==='dark'?'Dark':'Light';
+}
+function copyCode(btn){
+  const code=btn.closest('.cblock').querySelector('.ccode').innerText;
+  navigator.clipboard.writeText(code).then(()=>{
+    btn.textContent='✓ Copied!';
+    btn.style.color='#39FF14';
+    btn.style.borderColor='#39FF14';
+    setTimeout(()=>{btn.textContent='Copy';btn.style.color='';btn.style.borderColor='';},2000);
+  });
+}
+let activecat='all';
+function filterCat(cat,el){
+  activecat=cat;
+  document.querySelectorAll('.cat-tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  applyFilter();
+}
+function filterCmds(){applyFilter();}
+function applyFilter(){
+  const q=document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.cblock,.sec-head').forEach(el=>{
+    const cat=el.getAttribute('data-cat');
+    const text=el.innerText.toLowerCase();
+    const catMatch=activecat==='all'||cat===activecat;
+    const textMatch=!q||text.includes(q);
+    el.style.display=(catMatch&&textMatch)?'':'none';
+  });
+}
+</script>
+</body>
+</html>

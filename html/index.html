@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Help Portal — BITLA-ITDESK</title>
+<style>
+:root {
+  --bg:#0A0E17; --card:#0F1623; --card2:#161E2E;
+  --border:#1E2D45; --cyan:#00F5FF; --purple:#9D4EDD;
+  --green:#39FF14; --orange:#FF6B35; --text:#CBD5E1;
+  --bright:#E2E8F0; --muted:#475569; --mono:'Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;}
+
+/* STATUS BAR */
+.status-bar{background:#050810;border-bottom:1px solid var(--border);
+  padding:6px 24px;display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.status-bar span{color:var(--green);}
+.status-right{margin-left:auto;}
+
+/* NAV */
+nav{background:rgba(10,14,23,0.97);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;height:56px;
+  position:sticky;top:0;z-index:99;}
+.logo{font-family:var(--mono);font-size:15px;font-weight:700;
+  color:var(--cyan);letter-spacing:2px;text-decoration:none;
+  display:flex;align-items:center;gap:10px;}
+.logo-box{width:28px;height:28px;border:1.5px solid var(--cyan);
+  border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.nav-links{display:flex;gap:4px;margin-left:32px;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:12px;
+  padding:5px 12px;border-radius:5px;border:1px solid transparent;transition:.2s;}
+.nav-link:hover,.nav-link.active{color:var(--cyan);background:rgba(0,245,255,0.08);
+  border-color:rgba(0,245,255,0.25);}
+.nav-right{margin-left:auto;}
+.badge{font-family:var(--mono);font-size:10px;padding:3px 8px;
+  border-radius:4px;border:1px solid var(--green);color:var(--green);
+  background:rgba(57,255,20,0.08);}
+
+/* MAIN */
+main{max-width:1200px;margin:0 auto;padding:32px 24px;}
+
+/* HERO */
+.hero{margin-bottom:40px;display:flex;justify-content:space-between;
+  align-items:flex-start;gap:24px;flex-wrap:wrap;}
+.hero h1{font-family:var(--mono);font-size:28px;font-weight:700;
+  color:var(--cyan);line-height:1.2;margin-bottom:8px;}
+.hero h1 em{font-style:normal;color:var(--bright);}
+.hero p{font-size:13px;color:var(--muted);max-width:460px;line-height:1.7;}
+.stats{display:flex;gap:16px;flex-wrap:wrap;}
+.stat{background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:14px 20px;text-align:center;min-width:90px;}
+.stat .n{font-family:var(--mono);font-size:22px;font-weight:700;
+  color:var(--cyan);display:block;}
+.stat .l{font-size:10px;color:var(--muted);margin-top:3px;
+  display:block;text-transform:uppercase;letter-spacing:1px;}
+
+/* SECTION HEADER */
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;margin-top:32px;}
+.sec-icon{width:30px;height:30px;border-radius:6px;display:flex;
+  align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.ic{background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.25);}
+.ip{background:rgba(157,78,221,0.1);border:1px solid rgba(157,78,221,0.25);}
+.ig{background:rgba(57,255,20,0.1);border:1px solid rgba(57,255,20,0.25);}
+.io{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.25);}
+.sec-head h2{font-family:var(--mono);font-size:11px;font-weight:600;
+  color:var(--muted);text-transform:uppercase;letter-spacing:2px;}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:8px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px;}
+@media(max-width:700px){.grid2,.grid3,.grid4{grid-template-columns:1fr;}.hero{flex-direction:column;}}
+
+/* INSTALL CARD */
+.icard{background:var(--card);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;transition:.2s;cursor:pointer;}
+.icard:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,245,255,0.08);transform:translateY(-2px);}
+.glow{height:2px;opacity:0;transition:.2s;}
+.icard:hover .glow{opacity:1;}
+.gc{background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.gp{background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+.gg{background:linear-gradient(90deg,transparent,var(--green),transparent);}
+.go{background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.card-body{padding:16px;}
+.card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.os-icon{width:34px;height:34px;border-radius:7px;display:flex;
+  align-items:center;justify-content:center;font-size:17px;
+  background:var(--card2);border:1px solid var(--border);flex-shrink:0;}
+.card-title{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--bright);}
+.card-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.fsize{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+  border-radius:6px;font-size:11px;font-family:var(--mono);font-weight:600;
+  cursor:pointer;border:none;text-decoration:none;transition:.2s;
+  width:100%;justify-content:center;letter-spacing:.3px;}
+.bc{background:rgba(0,245,255,0.08);border:1px solid var(--cyan);color:var(--cyan);}
+.bc:hover{background:var(--cyan);color:var(--bg);box-shadow:0 0 18px rgba(0,245,255,0.35);}
+.bp{background:rgba(157,78,221,0.08);border:1px solid var(--purple);color:var(--purple);}
+.bp:hover{background:var(--purple);color:#fff;box-shadow:0 0 18px rgba(157,78,221,0.35);}
+.bg{background:rgba(57,255,20,0.06);border:1px solid var(--green);color:var(--green);}
+.bg:hover{background:var(--green);color:var(--bg);box-shadow:0 0 18px rgba(57,255,20,0.35);}
+.bo{background:rgba(255,107,53,0.08);border:1px solid var(--orange);color:var(--orange);}
+.bo:hover{background:var(--orange);color:#fff;}
+
+/* ACCORDION */
+.acc{background:var(--card);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.acc-item{border-bottom:1px solid var(--border);}
+.acc-item:last-child{border-bottom:none;}
+.acc-btn{width:100%;background:none;border:none;padding:14px 18px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  color:var(--bright);font-family:'Segoe UI',sans-serif;
+  font-size:12px;font-weight:600;text-align:left;transition:.2s;}
+.acc-btn:hover{background:var(--card2);}
+.step-tag{font-family:var(--mono);font-size:10px;padding:2px 8px;
+  border-radius:3px;flex-shrink:0;}
+.tg{background:rgba(57,255,20,0.1);color:var(--green);border:1px solid rgba(57,255,20,0.3);}
+.tp{background:rgba(157,78,221,0.1);color:var(--purple);border:1px solid rgba(157,78,221,0.3);}
+.to{background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.3);}
+.tc{background:rgba(0,245,255,0.1);color:var(--cyan);border:1px solid rgba(0,245,255,0.3);}
+.arrow{margin-left:auto;font-size:9px;color:var(--muted);transition:transform .2s;}
+.acc-item.open .arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:4px 18px 16px 44px;
+  font-family:var(--mono);font-size:12px;color:var(--green);
+  line-height:1.9;background:rgba(0,0,0,0.2);white-space:pre;}
+.acc-item.open .acc-body{display:block;}
+
+/* SCRIPT CARD */
+.scard{background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:16px;transition:.2s;}
+.scard:hover{border-color:var(--purple);background:var(--card2);}
+.stag{font-family:var(--mono);font-size:10px;padding:2px 8px;
+  border-radius:3px;display:inline-block;margin-bottom:8px;}
+.tl{background:rgba(57,255,20,0.08);color:var(--green);border:1px solid rgba(57,255,20,0.25);}
+.tw{background:rgba(157,78,221,0.08);color:var(--purple);border:1px solid rgba(157,78,221,0.25);}
+.tm{background:rgba(0,245,255,0.08);color:var(--cyan);border:1px solid rgba(0,245,255,0.25);}
+.sname{font-family:var(--mono);font-size:12px;font-weight:600;
+  color:var(--bright);margin-bottom:5px;}
+.sdesc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:12px;}
+
+/* CODE BLOCK */
+.code-wrap{background:var(--card);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.code-top{display:flex;align-items:center;gap:10px;padding:10px 16px;
+  background:var(--card2);border-bottom:1px solid var(--border);}
+.dots{display:flex;gap:5px;}
+.d{width:9px;height:9px;border-radius:50%;}
+.dr{background:#FF5F57;}.dy{background:#FEBC2E;}.dg{background:#28C840;}
+.clang{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto;}
+.code-content{padding:16px;font-family:var(--mono);font-size:12px;
+  line-height:1.9;color:#A9D1F7;overflow-x:auto;white-space:pre;}
+.cg{color:var(--green);} .cc{color:var(--cyan);}
+.cy{color:#F1FA8C;} .cm{color:var(--muted);}
+
+/* AI CHAT */
+#ai-btn{position:fixed;bottom:24px;right:24px;
+  background:var(--purple);border:none;border-radius:50%;
+  width:50px;height:50px;cursor:pointer;z-index:9999;font-size:20px;
+  box-shadow:0 0 20px rgba(157,78,221,0.5);transition:.2s;
+  display:flex;align-items:center;justify-content:center;}
+#ai-btn:hover{transform:scale(1.1);}
+#ai-box{display:none;position:fixed;bottom:86px;right:24px;
+  width:320px;background:var(--card);border:1px solid var(--border);
+  border-radius:10px;z-index:9998;overflow:hidden;
+  box-shadow:0 0 30px rgba(0,0,0,0.5);}
+.ai-head{background:var(--card2);padding:12px 16px;
+  font-family:var(--mono);font-size:12px;color:var(--cyan);
+  display:flex;align-items:center;justify-content:space-between;}
+.ai-close{cursor:pointer;color:var(--muted);font-size:14px;}
+.ai-close:hover{color:var(--bright);}
+#ai-msgs{height:260px;overflow-y:auto;padding:12px;
+  font-size:12px;color:var(--text);line-height:1.6;}
+.msg-you{color:var(--purple);margin-bottom:5px;font-weight:600;}
+.msg-ai{color:var(--green);margin-bottom:10px;}
+.ai-input-row{display:flex;padding:10px;gap:8px;border-top:1px solid var(--border);}
+#ai-input{flex:1;background:var(--bg);border:1px solid var(--border);
+  border-radius:5px;padding:7px 10px;color:var(--bright);
+  font-family:var(--mono);font-size:11px;}
+#ai-input:focus{outline:none;border-color:var(--purple);}
+#ai-send{background:var(--purple);border:none;border-radius:5px;
+  padding:7px 12px;color:#fff;cursor:pointer;font-size:13px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:20px 24px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.fl{font-family:var(--mono);font-size:12px;color:var(--cyan);font-weight:700;}
+.fc{font-size:11px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="dot"></div>
+  <span>PORTAL ONLINE</span>
+  &nbsp;|&nbsp; BITLA-ITDESK &nbsp;|&nbsp; IT HELP PORTAL v2.0
+  <div class="status-right">Docker · Nginx · Ollama AI · Cloudflare</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-box">⚡</div>IT HELP PORTAL
+  </a>
+  <div class="nav-links">
+    <a href="#" class="nav-link active">Home</a>
+    <a href="#crowdstrike" class="nav-link">CrowdStrike</a>
+    <a href="#zscaler" class="nav-link">Zscaler</a>
+    <a href="#scripts" class="nav-link">Scripts</a>
+    <a href="#commands" class="nav-link">Commands</a>
+  </div>
+  <div class="nav-right"><div class="badge">● LIVE</div></div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <h1>ENDPOINT SECURITY<br>&amp; <em>ACCESS PROVISIONING</em></h1>
+    <p style="margin-top:10px">Automated deployment repository for CrowdStrike Falcon, Zscaler Private Access, and internal IT tooling. Select your platform to get the correct installer and steps.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="n">3</span><span class="l">Platforms</span></div>
+    <div class="stat"><span class="n" style="color:var(--green)">100%</span><span class="l">Uptime</span></div>
+    <div class="stat"><span class="n" style="color:var(--purple)">AI</span><span class="l">Powered</span></div>
+  </div>
+</div>
+
+<!-- CROWDSTRIKE -->
+<div id="crowdstrike">
+  <div class="sec-head">
+    <div class="sec-icon ic">🛡</div>
+    <h2>CrowdStrike Falcon Sensor Deployment</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="grid2">
+    <div class="icard">
+      <div class="glow gg"></div>
+      <div class="card-body">
+        <div class="card-hdr">
+          <div class="os-icon">🐧</div>
+          <div>
+            <div class="card-title">Ubuntu / Debian</div>
+            <div class="card-sub">v7.32.18504 · .deb package</div>
+          </div>
+          <div class="fsize">83.9 MB</div>
+        </div>
+        <a href="packages/Ubuntu 7.32.18504.deb" class="btn bg">↓ Download for Ubuntu (.deb)</a>
+      </div>
+    </div>
+    <div class="icard">
+      <div class="glow gc"></div>
+      <div class="card-body">
+        <div class="card-hdr">
+          <div class="os-icon"></div>
+          <div>
+            <div class="card-title">macOS Package</div>
+            <div class="card-sub">v7.32.20407 · .pkg installer</div>
+          </div>
+          <div class="fsize">43 MB</div>
+        </div>
+        <a href="packages/macOS - 7.32.20407.pkg" class="btn bc">↓ Download for macOS (.pkg)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CrowdStrike Steps -->
+  <div class="acc" style="margin-top:12px">
+    <div class="acc-item open">
+      <button class="acc-btn" onclick="tog(this)">
+        <span class="step-tag tg">STEP 1</span> Install the Package
+        <span class="arrow">▼</span>
+      </button>
+      <div class="acc-body">sudo dpkg -i Ubuntu_7.32.18504.deb
+sudo apt-get install -f   # Fix dependency issues if any</div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" onclick="tog(this)">
+        <span class="step-tag tg">STEP 2</span> Set Customer ID (CID)
+        <span class="arrow">▼</span>
+      </button>
+      <div class="acc-body">sudo /opt/CrowdStrike/falconctl -s --cid=AD51434F6C8D4F60BE8051F85FB1F39C-A2
+sudo /opt/CrowdStrike/falconctl -g --cid   # Verify CID was set</div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" onclick="tog(this)">
+        <span class="step-tag tg">STEP 3</span> Enable and Start Service
+        <span class="arrow">▼</span>
+      </button>
+      <div class="acc-body">sudo systemctl enable falcon-sensor
+sudo systemctl start falcon-sensor
+sudo systemctl status falcon-sensor</div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" onclick="tog(this)">
+        <span class="step-tag tc">VERIFY</span> Confirm Cloud Registration
+        <span class="arrow">▼</span>
+      </button>
+      <div class="acc-body">sudo /opt/CrowdStrike/falconctl -g --aid
+# AID shown = sensor registered to cloud successfully</div>
+    </div>
+  </div>
+</div>
+
+<!-- ZSCALER -->
+<div id="zscaler">
+  <div class="sec-head">
+    <div class="sec-icon ic">☁</div>
+    <h2>Zscaler Private Access Client Provisioning</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="grid4">
+    <div class="icard">
+      <div class="glow gp"></div>
+      <div class="card-body" style="padding:14px">
+        <div style="font-size:24px;margin-bottom:8px">🪟</div>
+        <div class="card-title">Windows</div>
+        <div class="card-sub" style="margin-bottom:12px">v4.8.0.88 · x64</div>
+        <a href="packages/Zscaler-windows-4.8.0.88-installer-x64.exe" class="btn bp" style="font-size:10px">↓ .exe</a>
+      </div>
+    </div>
+    <div class="icard">
+      <div class="glow gg"></div>
+      <div class="card-body" style="padding:14px">
+        <div style="font-size:24px;margin-bottom:8px">🐧</div>
+        <div class="card-title">Ubuntu</div>
+        <div class="card-sub" style="margin-bottom:12px">v3.7.2.53 · amd64</div>
+        <a href="packages/zscaler-client_3.7.2.53-1_amd64.deb" class="btn bg" style="font-size:10px">↓ .deb</a>
+      </div>
+    </div>
+    <div class="icard">
+      <div class="glow gc"></div>
+      <div class="card-body" style="padding:14px">
+        <div style="font-size:24px;margin-bottom:8px"></div>
+        <div class="card-title">macOS .zip</div>
+        <div class="card-sub" style="margin-bottom:12px">v4.7.0.126</div>
+        <a href="packages/Zscaler-osx-4.7.0.126-installer.app.zip" class="btn bc" style="font-size:10px">↓ .zip</a>
+      </div>
+    </div>
+    <div class="icard">
+      <div class="glow gc"></div>
+      <div class="card-body" style="padding:14px">
+        <div style="font-size:24px;margin-bottom:8px"></div>
+        <div class="card-title">macOS .pkg</div>
+        <div class="card-sub" style="margin-bottom:12px">v4.7.0.126</div>
+        <a href="packages/Zscaler-osx-4.7.0.126-installer.pkg" class="btn bc" style="font-size:10px">↓ .pkg</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zscaler Steps -->
+  <div class="acc" style="margin-top:12px">
+    <div class="acc-item">
+      <button class="acc-btn" onclick="tog(this)">
+        <span class="step-tag tp">STEP 1</span> Install Zscaler Client (Ubuntu)
+        <span class="arrow">▼</span>
+      </button>
+      <div class="acc-body">sudo dpkg -i zscaler-client_*.deb
+sudo apt-get install -f   # Fix any dependency issues</div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" onclick="tog(this)">
+        <span class="step-tag tp">STEP 2</span> Install OpenSSH
+        <span class="arrow">▼</span>
+      </button>
+      <div class="acc-body">sudo apt update
+sudo apt install openssh-server openssh-client
+sudo systemctl status ssh
+sudo ufw allow ssh
+# Connect: ssh user@host</div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-btn" onclick="tog(this)">
+        <span class="step-tag to">FIX</span> Wayland Display Issue
+        <span class="arrow">▼</span>
+      </button>
+      <div class="acc-body">sudo sed -i 's/#\?\WaylandEnable=false/WaylandEnable=false/' /etc/gdm3/custom.conf
+sudo systemctl restart gdm3</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<div id="scripts">
+  <div class="sec-head">
+    <div class="sec-icon io">📜</div>
+    <h2>Automation Scripts</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="grid3">
+    <div class="scard">
+      <span class="stag tl">LINUX</span>
+      <div class="sname">security_setup.sh</div>
+      <div class="sdesc">Installs CrowdStrike Falcon Sensor, sets CID, enables and starts the service automatically.</div>
+      <a href="scripts/security_setup.sh" class="btn bg" style="font-size:10px">↓ Download Script</a>
+    </div>
+    <div class="scard">
+      <span class="stag tl">LINUX</span>
+      <div class="sname">ror_setup.sh</div>
+      <div class="sdesc">Full Ruby on Rails setup — RVM, Ruby 3.2.2, Rails 7, MySQL, MySQL Workbench.</div>
+      <a href="scripts/ror_setup.sh" class="btn bg" style="font-size:10px">↓ Download Script</a>
+    </div>
+    <div class="scard">
+      <span class="stag tl">LINUX</span>
+      <div class="sname">mobility_setup.sh</div>
+      <div class="sdesc">Installs and configures Zscaler client for Ubuntu with OpenSSH and UFW.</div>
+      <a href="scripts/mobility_setup.sh" class="btn bg" style="font-size:10px">↓ Download Script</a>
+    </div>
+  </div>
+</div>
+
+<!-- COMMANDS -->
+<div id="commands">
+  <div class="sec-head">
+    <div class="sec-icon ic">⌨</div>
+    <h2>Useful Commands Reference</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="code-wrap">
+    <div class="code-top">
+      <div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:8px">useful-commands.sh</span>
+      <span class="clang">bash</span>
+    </div>
+    <div class="code-content"><span class="cm"># CrowdStrike ─────────────────────────────</span>
+<span class="cc">sudo systemctl status</span> falcon-sensor
+<span class="cc">sudo /opt/CrowdStrike/falconctl</span> <span class="cy">-g --aid</span>   <span class="cm"># Check Agent ID</span>
+<span class="cc">sudo systemctl restart</span> falcon-sensor
+
+<span class="cm"># Zscaler ──────────────────────────────────</span>
+<span class="cc">sudo systemctl status</span> zscaler
+<span class="cc">sudo systemctl restart</span> zscaler
+
+<span class="cm"># Wayland Fix ──────────────────────────────</span>
+<span class="cc">sudo sed</span> <span class="cy">-i 's/#\?\WaylandEnable=false/WaylandEnable=false/'</span> /etc/gdm3/custom.conf
+<span class="cc">sudo systemctl restart</span> gdm3
+
+<span class="cm"># SSH ──────────────────────────────────────</span>
+<span class="cc">ssh</span> <span class="cy">user@host</span>
+<span class="cc">sudo ufw allow</span> ssh
+
+<span class="cm"># Ruby on Rails ────────────────────────────</span>
+<span class="cc">rvm install</span> 3.2.2
+<span class="cc">gem install rails</span> -v 7.0
+<span class="cc">sudo mysql</span> -u root</div>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl">⚡ IT HELP PORTAL</div>
+  <div class="fc">BITLA-ITDESK · Internal Use Only · v2.0</div>
+  <div class="fc" style="font-family:var(--mono);color:var(--muted)">Docker + AI + Cloudflare</div>
+</footer>
+
+<!-- AI CHAT BUTTON -->
+<div id="ai-btn" onclick="toggleAI()" title="Ask AI">🤖</div>
+<div id="ai-box">
+  <div class="ai-head">
+    <span>⚡ IT Helpdesk AI</span>
+    <span class="ai-close" onclick="toggleAI()">✕</span>
+  </div>
+  <div id="ai-msgs">
+    <div class="msg-ai">Hi! I am your IT Helpdesk AI. Ask me anything about CrowdStrike, Zscaler, Ubuntu, or any IT issue!</div>
+  </div>
+  <div class="ai-input-row">
+    <input id="ai-input" placeholder="Ask IT anything..." onkeydown="if(event.key==='Enter')sendAI()">
+    <button id="ai-send" onclick="sendAI()">→</button>
+  </div>
+</div>
+
+<script>
+function tog(btn){
+  btn.closest('.acc-item').classList.toggle('open');
+}
+function toggleAI(){
+  const b=document.getElementById('ai-box');
+  b.style.display=b.style.display==='none'||b.style.display===''?'block':'none';
+}
+async function sendAI(){
+  const inp=document.getElementById('ai-input');
+  const msgs=document.getElementById('ai-msgs');
+  const q=inp.value.trim();
+  if(!q)return;
+  msgs.innerHTML+=`<div class="msg-you">You: ${q}</div>`;
+  msgs.innerHTML+=`<div class="msg-ai" id="thinking">AI: thinking...</div>`;
+  inp.value='';
+  msgs.scrollTop=msgs.scrollHeight;
+  try{
+    const r=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:q})
+    });
+    const d=await r.json();
+    document.getElementById('thinking').textContent='AI: '+d.answer;
+    document.getElementById('thinking').removeAttribute('id');
+  }catch(e){
+    document.getElementById('thinking').textContent='AI: Cannot connect to AI backend. Make sure it is running on port 8001.';
+    document.getElementById('thinking').removeAttribute('id');
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+}
+document.querySelectorAll('.acc-item')[0]&&document.querySelectorAll('.acc-item')[0].classList.add('open');
+</script>
+</body>
+</html>
